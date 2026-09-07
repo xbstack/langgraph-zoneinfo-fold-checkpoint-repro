@@ -19,10 +19,13 @@ A zone-aware `datetime` serialized through `JsonPlusSerializer` can deserialize 
 ```bash
 python3 -m venv .venv
 .venv/bin/pip install -r requirements.txt
-.venv/bin/python repro.py
+.venv/bin/python repro/repro.py
+.venv/bin/python fixed/containment.py
 ```
 
-Expected output ends with `REPRODUCED` and shows:
+The first command reproduces the upstream failure. The containment command demonstrates an application-level workaround that stores the IANA timezone key separately; it is not an upstream LangGraph fix.
+
+Expected repro output ends with `REPRODUCED` and shows:
 
 - `ZoneInfo('America/New_York')` becomes a fixed-offset `datetime.timezone`;
 - adding one day across the March DST boundary changes `09:00` into `10:00` after restore;
@@ -35,3 +38,6 @@ See `logs/repro-2026-09-07.txt` for the captured XBSTACK run.
 This repository reproduces the serializer behavior only. It does not claim that all LangGraph releases are affected, that upstream has accepted a specific fix, or that historical checkpoints can recover timezone information that was never stored.
 
 Upstream: https://github.com/langchain-ai/langgraph/issues/8826
+
+Related XBSTACK LangGraph production guides:
+https://www.xbstack.com/en/ai/langgraph/?utm_source=github&utm_medium=referral&utm_campaign=langgraph_zoneinfo_fold_checkpoint&utm_content=repository_readme&ref=github
