@@ -1,0 +1,12 @@
+Environment: macOS 26.6.2, Python 3.10 venv, langchain-ai/langgraph commit 81bf17b23, langgraph-checkpoint package metadata 4.2.0
+
+before_tz= zoneinfo.ZoneInfo(key='America/New_York')
+after_tz= datetime.timezone(datetime.timedelta(days=-1, seconds=68400))
+equal= True
+before_plus1= 2026-03-08 09:00:00-04:00
+after_plus1= 2026-03-08 10:00:00-04:00
+fold= 1 -> 0
+
+Result: REPRODUCED
+
+Interpretation: the serialized instant compares equal after round-trip, but the IANA timezone rule and fold bit are not preserved. DST-crossing arithmetic therefore differs after checkpoint restore. This is an independent XBSTACK reproduction of the failure shape described in upstream issue #8826, not an upstream fix.

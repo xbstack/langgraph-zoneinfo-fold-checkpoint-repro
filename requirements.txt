@@ -1,0 +1,1 @@
+langgraph-checkpoint @ git+https://github.com/langchain-ai/langgraph.git@81bf17b23#subdirectory=libs/checkpoint
